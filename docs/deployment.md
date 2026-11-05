@@ -16,6 +16,10 @@ Record the source commit/tag, artifact name and immutable version/digest, suppor
 runtime, committed `uv.lock`, and exact build command. Use `uv sync --locked`
 for installation and `uv run --locked` for project commands. For this
 starter the local build is `docker build -t dsg-project:local .`.
+The `.github/workflows/docker-build.yml` workflow builds and smoke-tests separate
+`linux/amd64` and `linux/arm64` images using Buildx and QEMU. Each job loads its
+image locally and verifies its architecture, CLI help, and synthetic CSV output.
+Images are not published; a registry and release process remain unconfigured.
 
 List required variable names, purpose, secret-store locations, and the identity that
 can read them. Record storage mounts, network access, and database migrations if

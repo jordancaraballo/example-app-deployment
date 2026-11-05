@@ -61,7 +61,10 @@ docker run --rm --mount type=bind,source="$PWD/examples",target=/data,readonly d
 
 The image runs as an unprivileged user. Mount input files at runtime; data and
 secrets are excluded from the build context. CI tests the installed Python package
-and builds and smoke-tests the container. No workflow publishes or deploys anything.
+and the dedicated `Docker build` workflow builds and smoke-tests the container for
+`linux/amd64` and `linux/arm64` on pushes, pull requests, and manual runs. It uses
+Buildx with QEMU for ARM emulation and separate build caches per architecture.
+No workflow publishes or deploys anything.
 For production, choose an owned registry, record dependency and image versions,
 and add the platform-specific deployment workflow using the runbook.
 
