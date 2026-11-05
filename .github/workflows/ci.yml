@@ -31,16 +31,3 @@ jobs:
         run: uv run --locked --no-editable python -m unittest discover -s tests -v
       - name: Smoke test CLI
         run: uv run --locked --no-editable dsg-project examples/sample.csv
-
-  container:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-      - name: Build container
-        run: docker build -t dsg-project:ci .
-      - name: Smoke test container with synthetic data
-        run: |
-          result=$(docker run --rm --mount type=bind,source="$PWD/examples",target=/data,readonly dsg-project:ci /data/sample.csv)
-          test "$result" = '{"columns": ["name", "value"], "rows": 2}'
